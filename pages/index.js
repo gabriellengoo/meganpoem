@@ -195,9 +195,9 @@ export default function Home() {
              >
           <defs>
             <linearGradient id="gradient-color" gradientTransform="rotate(90)">
-              <stop offset="42%" stop-color="#0f83ff00" />
-              <stop offset="70%" stop-color="#0f83ff" />
-              <stop offset="100%" stop-color="#0f83ff" />
+              <stop offset="42%" stopColor="#0f83ff00" />
+              <stop offset="70%" stopColor="#0f83ff" />
+              <stop offset="100%" stopColor="#0f83ff" />
             </linearGradient>
           </defs>
           <path
