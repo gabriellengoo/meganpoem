@@ -9,9 +9,10 @@ import { useRouter } from "next/router";
 import AnalogClock from "analog-clock-react";
 import 'animate.css';
 import Head from 'next/head'
+import Link from 'next/link'
 
 
-export const Post = ({ title, body , summary}) => {
+export const Post = ({ title, body , summary, url}) => {
 //   const [imageUrl, setImageUrl] = useState('');
 
 //   useEffect(() => {
@@ -109,8 +110,8 @@ const router = useRouter()
 {/* ----------------------------------------------------------------poems */}
                     <div className='z-60 flex justify-between font-base pt-5 pl-2 pr-2 text-[#e5af08]'>
                     <button type="button" onClick={() => router.push('../poems')}>
-                        <a ><span className="material-icons text-sm md-18">arrow_back_ios</span> Back to all</a></button>
-                        <div><span className="material-symbols-outlined">help</span></div>
+                        <a className='hover:text-[#d0d0d0] mix-blend-multiply'><span className="material-icons text-sm md-18">arrow_back_ios</span> Back to all</a></button>
+                        <div className='hover:text-[#d0d0d0] mix-blend-multiply cursor-pointer'><span className="material-symbols-outlined" onClick={() => router.push('../poems')}>help</span></div>
                     </div>
 
                     <div className='pt-2 pl-2 pr-2 text-xl font-semibold'>
@@ -192,19 +193,23 @@ const router = useRouter()
 
 
                 <div className={styles.contentwrapper}>
-                <div className='flex justify-between font-base pt-5 pl-2 pr-2 text-[#e5af08]'>
-                        <div><span className="material-symbols-outlined">expand</span></div>
-                        <div><span className="material-symbols-outlined">download</span>
-                        <span className="material-symbols-outlined">alternate_email</span></div>
+                <div className={styles.contentwrapperin}>
+                <div className='flex justify-between font-base pt-5 pl-2 pr-2 w-8/12 z-50 text-[#e5af08]'>
+                        {/* <div className='hover:text-[#d0d0d0] mix-blend-multiply cursor-pointer'><span className="material-symbols-outlined">expand</span></div> */}
+                        <Link href={url} className='hover:text-[#d0d0d0] mix-blend-multiply cursor-pointer' >
+                        <span className="material-symbols-outlined">download</span></Link>
+                        <a href='mailto:my@email.com'className='hover:text-[#d0d0d0] mix-blend-multiply cursor-pointer'> <span className="material-symbols-outlined">alternate_email</span></a>
                     </div>
-                    <div className=' pt-5 pl-5 pr-2 text-3xl text-[#383838] font-semibold'>
+                    <div className=' pt-5 pl-5 pr-2 text-3xl text-[#383838]  font-semibold'>
                         <div>{title}</div>
                     </div>
-                    <div className=' pt-5 pl-5 pr-2  text-[#383838] '>
+                    <div className=' pt-5 pl-5 pr-2 pb-10 text-[#383838] w-6/12 '>
                     <p><BlockContent blocks={body} /></p>
                     </div>
+                    <Link href={url} className=' w-8/12 pt-5 pl-5 pr-2 border-t border-t-gray-200 text-[#383838] hover:text-[#c1c1c1]'><a className=' pt-5 pl-5 pr-2  text-[#383838] w-2/12 hover:text-[#c1c1c1]'>Download Poem</a></Link>
+                    {/* <div><span className="material-symbols-outlined">download</span></div> */}
                 </div>
-
+                </div>
             </div>
 
 </div>     
@@ -262,6 +267,7 @@ export const getServerSideProps = async pageContext => {
         body: post.body,
         title: post.title,
         summary: post.summary,
+        url: post.url,
         // image: post.mainImage,
       }
     }

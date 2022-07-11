@@ -126,9 +126,9 @@ export default function Home() {
   </div>
   </div>
 
-
   <div className={styles.container}>
   <div  className={styles.iconcontainer}> 
+  <button type="button" onClick={() => router.push('../photos')}>
     <div className={styles.Photos}>
       <div className={styles.photosicon} >
         <div className={styles.petals} >
@@ -139,6 +139,7 @@ export default function Home() {
         </div>
       </div>
     </div>
+    </button>
   </div>
   </div>
 
@@ -267,12 +268,14 @@ export default function Home() {
 
   <div  className={styles.container}>
   <div className={styles.iconcontainer} >
+  <button type="button" onClick={() => router.push('https://www.instagram.com/ygmegs/')}>
     <div className={styles.Instagram} >
       <div className={styles.instagramborderRectangle}>
         <div className={styles.instagramlens} ></div>
         <div className={styles.instagramflash} ></div>
       </div>
     </div>
+    </button>
   </div>
   </div>
 
