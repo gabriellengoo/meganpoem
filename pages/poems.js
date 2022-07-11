@@ -10,7 +10,7 @@ import AnalogClock from "analog-clock-react";
 import 'animate.css';
 
 
-export default function Home() {
+export default function Home({ posts }) {
 
   let options = {
     width: "100px",
@@ -27,7 +27,32 @@ export default function Home() {
   };
 
 
-  const router = useRouter()
+  const router = useRouter();
+  const [mappedPosts, setMappedPosts] = useState([]);
+
+  useEffect(() => {
+    if (posts.length) {
+      // const imgBuilder = imageUrlBuilder({
+      //   projectId: '77a6df46',
+      //   dataset: 'production',
+      // });
+
+      setMappedPosts(
+        posts.map(p => {
+          return {
+            ...p,
+            // mainImage: imgBuilder.image(p.mainImage).width(500).height(250),
+          }
+        })
+      );
+    } else {
+      setMappedPosts([]);
+    }
+  }, [posts]);
+
+  
+
+
 
   return (
     <div className={styles.container}>
@@ -567,6 +592,7 @@ export default function Home() {
                         <div>Poems</div>
                     </div>
 
+                
                  
  {/* ----------------------------------------------------------------seach */}
                     <div className="flex p-2 pt-2 justify-center">
@@ -588,27 +614,35 @@ export default function Home() {
                         <div>Recent</div>
                         <div className='text-[#e5af08]'><span className="material-icons text-xl md-18">expand_more</span></div>
                     </div>
+                
                     <div className=" p-2 flex justify-center">
                         <div className="bg-white rounded-lg border border-gray-200 w-96 text-gray-900">
-                            <a
-                            href="#!"
+                            {mappedPosts.length ? mappedPosts.map((p, id) => (
+            <div onClick={() => router.push(`/post/${p.slug.current}`)} key={id}>
+<a
                             aria-current="true"
                             className="
-                                block
-                                px-6
-                                py-2
-                                border-b border-[#e5af08]
-                                w-full
-                                rounded-t-lg
-                                bg-[#e5af08]
-                                text-white
-                                cursor-pointer
-                            "
+                            block
+                            px-6
+                            py-2
+                            border-b border-gray-200
+                            w-full
+                            hover:bg-[#e5af08] hover:text-[white] hover:border-[#e5af08] 
+                            focus:outline-none focus:ring-0 focus:bg-gray-200 focus:text-gray-600
+                            transition
+                            duration-500
+                            cursor-pointer
+                        "
                             >
-                            <div>The current link item</div>
-                            <div className=" font-light text-xs " >Lorem ipsum dolor sit amet, eam cu tota tation.. </div>
+                              
+                            <div>{p.title}</div>
+                            <div className=" font-light text-xs " >{p.summary} </div>
                             </a>
-                            <a
+            </div>
+          )) : <>No Posts Yet</>}
+
+          
+                            {/* <a
                             href="#!"
                             className="
                                 block
@@ -643,7 +677,7 @@ export default function Home() {
                             >
                               <div>Link item 2</div>
                             <div className=" font-light text-xs " >Per an solum falli. No vel viderer forensibus.. </div>
-                            </a>
+                            </a> */}
                         </div>
                         </div>
 
@@ -653,7 +687,8 @@ export default function Home() {
                     </div>
                     <div className=" p-2 flex justify-center">
                         <div className="bg-white rounded-lg border border-gray-200 w-96 text-gray-900">
-                            <a
+                          
+                            {/* <a
                             href="#!"
                             aria-current="true"
                             className="
@@ -760,7 +795,7 @@ export default function Home() {
                             >
                               <div>Link item 2</div>
                             <div className=" font-light text-xs " >Per an solum falli. No vel viderer forensibus.. </div>
-                            </a>
+                            </a> */}
                         </div>
                         </div>
 
@@ -778,20 +813,16 @@ export default function Home() {
                 </div>
 
                 <div className={styles.contentwrapper}>
-                <div className='flex justify-between font-base pt-5 pl-2 pr-2 text-[#e5af08]'>
+                <div className='flex z-50 justify-between font-base pt-5 pl-2 pr-2 text-[#e5af08]'>
                         <div><span className="material-symbols-outlined">expand</span></div>
                         <div><span className="material-symbols-outlined">download</span>
                         <span className="material-symbols-outlined">alternate_email</span></div>
                     </div>
                     <div className=' pt-5 pl-5 pr-2 text-3xl text-[#383838] font-semibold'>
-                        <div>Title</div>
+                        <div>Welcome</div>
                     </div>
                     <div className=' pt-5 pl-5 pr-2  text-[#383838] '>
-                    <p>Lorem ipsum dolor sit amet, eam cu tota tation, quo no consulatu imperdiet intellegebat. Et apeirian legendos maiestatis duo, sint magna nullam duo in. Eam ne congue apeirian. Ludus iudico sanctus qui te, est et case vidisse quaeque, at liberavisse
-                    comprehensam eam. Ad sit odio aperiri epicuri, debet altera accumsan an sea. Ut natum partem animal usu, mei doctus lobortis efficiendi id. Elit inimicus cum ei. Choro ancillae maluisset ius ad. Per an solum falli. No vel viderer forensibus, civibus
-                    ullamcorper eam no. Liber legimus intellegebat sed ex, at labores nusquam voluptatibus qui, ea vel natum detracto consulatu. Ea cum nostro verear viderer, eros quando at sed, graeci repudiare sea no. Nam iudicabit deterruisset ei, sumo postulant
-                    neglegentur cu est. Sit appetere nominati posidonium ne, usu at tibique facilisis. Sint quodsi copiosae usu te. Mutat facete cum id, id vix vitae voluptatum. Ex pro discere similique concludaturque. Ridens denique his no, te iusto temporibus vix.
-                    </p>
+                    <p>Select a note on the left to my recent poems. 💗</p>
                     </div>
                 </div>
 
@@ -858,3 +889,25 @@ export default function Home() {
     </div>
   )
 }
+
+
+
+export const getServerSideProps = async pageContext => {
+  const query = encodeURIComponent('*[ _type == "post" ]');
+  const url = `https://77a6df46.api.sanity.io/v1/data/query/production?query=${query}`;
+  const result = await fetch(url).then(res => res.json());
+
+  if (!result.result || !result.result.length) {
+    return {
+      props: {
+        posts: [],
+      }
+    }
+  } else {
+    return {
+      props: {
+        posts: result.result,
+      }
+    }
+  }
+};
